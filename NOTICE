@@ -1,0 +1,50 @@
+NOTICE — third-party attribution
+================================
+
+1. Methodology reference (no code copied)
+-----------------------------------------
+Project: "Logs: LLMs can understand and write neural network weights" — the log
+release behind the blog post *Sparks of Weight Space Programming*.
+Repository: https://github.com/RikiyaT/lm_understand-logs
+Licence: CC BY 4.0 (per that repository's LICENSE), plus separate terms for its
+model weights and third-party benchmarks.
+Commit consulted while writing this project: 4d09ba6d6a7e891dd8063974dfe81b3d78e3494f
+
+Concepts taken from that work (ideas and data formats, not source code):
+  * bounded direct tensor editing of a small pretrained model, with no gradient
+    descent and no fine-tuning (exp8_math);
+  * a *budgeted* forward-pass tool that separates cheap generation passes from
+    teacher-forced reads, so a search cannot burn unbounded compute
+    (exp8_math/README.md, runs/p50c/state.json);
+  * the sparse delta concept: store only changed entries (flat index + new bit
+    pattern) plus the sha256 of the base and edited tensor, and rebuild exactly
+    (exp8_math/code/make_edit_diff.py, apply_edit.py);
+  * refusing edits to the embedding / final norm / output layer, and refusing a
+    uniform rescale of a whole tensor (exp8_math/code/profiles.py "frozen",
+    "refuse_rescale");
+  * the accept-or-rollback loop driven by a held-out evaluation.
+
+What this project does NOT contain: no file from that repository, no copied
+function, no copied prompt text, and none of its mathematical weight edits.
+Its exp8 deltas modify Qwen3.5-0.8B layers 15/19 `mlp.down_proj` for *math*; this
+project targets Hindi/Hinglish and ships no pretrained deltas at all — every edit
+is produced by a run you perform and is stored under `checkpoints/deltas/`.
+
+If you redistribute this project together with material derived from that
+repository, keep its CC BY 4.0 attribution.
+
+2. Models and services (not distributed here)
+---------------------------------------------
+* Qwen3.5-0.8B — https://huggingface.co/Qwen/Qwen3.5-0.8B — Qwen licence. This
+  project downloads it; it does not bundle weights.
+* NVIDIA NIM / build.nvidia.com API — https://integrate.api.nvidia.com/v1 —
+  governed by NVIDIA's API terms. No key is included.
+* nvidia model ids listed in docs/NVIDIA_MODEL.md are quoted from NVIDIA's public
+  catalogue for identification purposes only.
+
+3. Datasets
+-----------
+`datasets/dev.jsonl` and `datasets/heldout.jsonl` were written for this project
+(rubric-style prompts in Roman Hinglish, Devanagari and mixed Hindi-English). They
+contain no text copied from an external benchmark; facts used in the `factuality`
+category are common-knowledge statements, and the rubric tokens are our own.

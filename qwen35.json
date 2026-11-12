@@ -1,0 +1,41 @@
+{
+  "_comment": "Real target: Qwen3.5-0.8B through transformers. Set model_path or ALADDIN_MODEL_PATH after downloading. NVIDIA_MODEL / NVIDIA_API_KEY come from the environment only.",
+  "backend": {
+    "kind": "hf_torch",
+    "model_path": "",
+    "dtype": "bfloat16",
+    "device": "cuda",
+    "trust_remote_code": false,
+    "revision": ""
+  },
+  "editing": {
+    "max_tensors_per_edit": 2,
+    "max_entries_per_tensor": 200000,
+    "max_relative_change": 0.2,
+    "min_relative_change": 1e-9,
+    "frozen_suffixes": ["model.norm.weight", "model.embed_tokens.weight", "lm_head.weight"],
+    "refuse_uniform_rescale": true
+  },
+  "forward_pass": { "max_new_tokens": 256, "budget": 50, "max_prompt_tokens": 1024 },
+  "evaluation": {
+    "dev_file": "dev.jsonl",
+    "heldout_file": "heldout.jsonl",
+    "max_new_tokens": 256,
+    "temperature": 0.0,
+    "top_k": 0,
+    "limit_per_category": 3,
+    "seed": 0
+  },
+  "acceptance": { "min_composite_gain": 0.005, "max_category_regression": 0.03, "min_abs_score": 0.0 },
+  "agent": {
+    "provider": "nvidia",
+    "base_url": "https://integrate.api.nvidia.com/v1",
+    "model": "",
+    "judge_model": "",
+    "max_steps": 14,
+    "temperature": 0.2,
+    "max_tokens": 2048,
+    "timeout": 180,
+    "max_retries": 3
+  }
+}

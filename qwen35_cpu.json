@@ -1,0 +1,14 @@
+{
+  "_comment": "Qwen3.5-0.8B on CPU with float32 (slow, useful for a smoke test without a GPU). Same code path as config/qwen35.json.",
+  "backend": {
+    "kind": "hf_torch",
+    "model_path": "",
+    "dtype": "float32",
+    "device": "cpu",
+    "trust_remote_code": false,
+    "revision": ""
+  },
+  "evaluation": { "max_new_tokens": 64, "limit_per_category": 1, "temperature": 0.0, "top_k": 0, "seed": 0 },
+  "forward_pass": { "max_new_tokens": 64, "budget": 8, "max_prompt_tokens": 512 },
+  "agent": { "provider": "scripted", "max_steps": 2 }
+}

@@ -1,0 +1,26 @@
+# ---- secrets ----
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# ---- model weights & big artifacts ----
+models/
+*.safetensors
+*.bin
+*.gguf
+*.pt
+*.pth
+checkpoints/
+experiments/
+logs/
+.cache/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.zip
+
+# ---- local scratch ----
+/tmp/
+.DS_Store
